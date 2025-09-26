@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Python Backend API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /:
+    get:
+      summary: Health Check
+      responses:
+        "200":
+          description: Health status
+  /api/users/create:
+    post:
+      summary: Create User
+      responses:
+        "201":
+          description: User created
+  /api/users/update/{id}:
+    put:
+      summary: Update User
+      responses:
+        "200":
+          description: User updated
