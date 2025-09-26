@@ -1,7 +1,7 @@
 # Python Backend (Flask + Pytest)
 
-This is a Python 3.13 backend using **Flask** for APIs and **pytest** for testing.  
-It mirrors the structure of the [nodejs-backend](https://github.com/Shankar0919/nodejs-backend).
+This is a Python 3.13 backend using **Flask** for APIs, **pytest** for testing, and **Flasgger** for Swagger-UI.  
+It also provides **Postman** and **Bruno** collections generated from the OpenAPI spec.
 
 ---
 
@@ -16,7 +16,10 @@ It mirrors the structure of the [nodejs-backend](https://github.com/Shankar0919/
    - [Git Bash](#git-bash)
    - [Command Prompt](#command-prompt)
 4. [API Endpoints](#-api-endpoints)
-5. [Run Tests](#-run-tests)
+5. [API Documentation (Swagger-UI)](#-api-documentation-swagger-ui)
+6. [Postman & Bruno Collections](#-postman--bruno-collections)
+7. [Run Tests](#-run-tests)
+8. [Contributor Workflow](#-contributor-workflow)
 
 ---
 
@@ -30,6 +33,8 @@ src/
   └── validators/           # Input validation modules
 test/                       # pytest test cases
 env/                        # environment variable files
+docs/                       # API spec + collections
+scripts/                    # scripts to update collections
 ```
 
 ---
@@ -43,11 +48,6 @@ env/                        # environment variable files
 py -3.13 -m venv venv
 ```
 
-**Windows (full path if needed):**
-```bash
-"C:\Program Files\Python313\python.exe" -m venv venv
-```
-
 **Linux/Mac:**
 ```bash
 python3.13 -m venv venv
@@ -58,7 +58,7 @@ python3.13 -m venv venv
 | Shell        | Command |
 |--------------|---------|
 | **Git Bash** | `source venv/Scripts/activate` |
-| **Command Prompt (cmd.exe)** | `venv\Scripts\activate` |
+| **Command Prompt (cmd.exe)** | `venv\Scripts\activate.bat` |
 | **PowerShell** | `.env\Scripts\Activate.ps1` |
 | **Linux/Mac (bash/zsh)** | `source venv/bin/activate` |
 
@@ -67,6 +67,23 @@ python3.13 -m venv venv
 ```bash
 pip install -r requirements.txt
 ```
+
+⚡ **Tip for existing venv users (don’t recreate it):**
+
+If you already have a `venv/` folder from a previous setup, you don’t need to create it again.  
+Just install or upgrade the dependencies into the existing venv:
+
+**PowerShell / CMD**
+```powershell
+.env\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+**Linux / Mac / Git Bash**
+```bash
+venv/bin/python -m pip install -r requirements.txt
+```
+
+This ensures packages are installed inside your existing venv without recreating it.
 
 ---
 
@@ -93,80 +110,55 @@ Flask will start on **http://127.0.0.1:5000/**
 
 ## 📡 API Endpoints
 
-### **GET /**
+See `docs/api_spec.yaml` for the OpenAPI spec.  
+Endpoints include:
+- `GET /` → Health Check
+- `POST /api/users/create` → Create User
+- `PUT /api/users/update/{id}` → Update User
 
-```json
-{
-  "status": "ok",
-  "env": "local",
-  "message": "Python Backend Running"
-}
+---
+
+## 📖 API Documentation (Swagger-UI)
+
+After running the app, open:  
+👉 [http://127.0.0.1:5000/apidocs/](http://127.0.0.1:5000/apidocs/)  
+
+This shows interactive Swagger-UI docs generated from `docs/api_spec.yaml`.
+
+---
+
+## 📦 Postman & Bruno Collections
+
+Collections are generated from the OpenAPI spec.  
+
+Run the script:
+
+**PowerShell**
+```powershell
+python scripts/update_collections.py
 ```
 
-### **POST /api/users/create**
-
-**Request:**
-```json
-{
-  "name": "shankar",
-  "active": "true",
-  "dob": "2000-01-01"
-}
+**Git Bash/Linux/Mac**
+```bash
+python scripts/update_collections.py
 ```
 
-**Response:**
-```json
-{
-  "message": "User created",
-  "data": {
-    "id": "1",
-    "name": "Shankar",
-    "active": "true",
-    "dob": "2000-01-01"
-  }
-}
+**Command Prompt**
+```cmd
+python scripts\update_collections.py
 ```
 
-### **PUT /api/users/update/<id>**
-
-**Request:**
-```json
-{
-  "name": "Shankar N",
-  "active": "false"
-}
-```
-
-**Response:**
-```json
-{
-  "message": "User updated",
-  "data": {
-    "id": "1",
-    "name": "Shankar N",
-    "active": "false",
-    "dob": "2000-01-01"
-  }
-}
-```
+This regenerates:
+- `docs/postman_collection.json`
+- `docs/python-backend.bru`
 
 ---
 
 ## 🧪 Run Tests
 
 ```bash
-pytest -v
+python -m pytest -v test
 ```
-
-Example output:
-
-```
-test/test_user_controller.py::test_create_user_success PASSED
-test/test_user_controller.py::test_create_user_invalid_date PASSED
-test/test_validators.py::test_boolean_validator PASSED
-...
-```
-
 
 ---
 
@@ -204,7 +196,6 @@ When a collaborator **creates or modifies an endpoint**, the following steps **m
 
 4. **Commit and push**  
    Now commit the updated code + docs together.
-
 
 ---
 
