@@ -23,16 +23,19 @@ Python backend using Flask, pytest, Flasgger, and auto-generated OpenAPI spec.
 ## 🔧 Development
 
 ### Install dependencies
+
 ```bash
 pip install -e .
 ```
 
 ### Run app
+
 ```bash
 python src/app.py
 ```
 
 ### Run tests
+
 ```bash
 pytest -v
 ```
@@ -47,6 +50,7 @@ python scripts/update_collections.py
 ```
 
 This updates:
+
 - `docs/api_spec.yaml`
 - `docs/postman_collection.json`
 - `docs/python-backend.bru`

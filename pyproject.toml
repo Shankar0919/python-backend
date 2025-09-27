@@ -20,5 +20,8 @@ dependencies = [
     "openapi-spec-validator==0.7.1"
 ]
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+
 [tool.setuptools.packages.find]
 where = ["src"]

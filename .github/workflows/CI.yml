@@ -26,5 +26,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
 
+      - name: Debug installed packages
+        run: pip list
+
       - name: Run tests
         run: pytest -v test
