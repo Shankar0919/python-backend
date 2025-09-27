@@ -1,12 +1,10 @@
-from flask import Blueprint, request, jsonify
+from flask import request, jsonify
 from validators.boolean_validator import is_boolean
 from validators.date_validator import is_valid_date
 from services.user_service import transform_user_data
 
-user_bp = Blueprint("user", __name__)
 users = {}
 
-@user_bp.route("/create", methods=["POST"])
 def create_user():
     data = request.get_json()
     if not data.get("name"):
@@ -22,7 +20,7 @@ def create_user():
     users[user_id] = transformed
     return jsonify({"message": "User created", "data": transformed}), 201
 
-@user_bp.route("/update/<user_id>", methods=["PUT"])
+
 def update_user(user_id):
     if user_id not in users:
         return jsonify({"error": "User not found"}), 404
@@ -38,3 +36,11 @@ def update_user(user_id):
     updated = transform_user_data(existing)
     users[user_id] = updated
     return jsonify({"message": "User updated", "data": updated}), 200
+
+
+def delete_user(user_id):
+    if user_id not in users:
+        return jsonify({"error": "User not found"}), 404
+
+    deleted = users.pop(user_id)
+    return jsonify({"message": "User deleted", "data": deleted}), 200
