@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  title: Python Backend API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /healthcheck:
+    get:
+      summary: GET /healthcheck
+      responses:
+        "200":
+          description: Successful response
+  /api/users/create:
+    post:
+      summary: POST /api/users/create
+      responses:
+        "200":
+          description: Successful response
+  /api/users/update/<user_id>:
+    put:
+      summary: PUT /api/users/update/<user_id>
+      responses:
+        "200":
+          description: Successful response
+  /api/users/delete/<user_id>:
+    delete:
+      summary: DELETE /api/users/delete/<user_id>
+      responses:
+        "200":
+          description: Successful response

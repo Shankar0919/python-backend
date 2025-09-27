@@ -1,0 +1,12 @@
+#!/bin/sh
+echo "🔍 Running pre-commit checks..."
+
+python scripts/update_collections.py
+
+if ! git diff --exit-code; then
+  echo "❌ API spec or collections are outdated."
+  echo "   Run 'python scripts/update_collections.py' and commit the changes."
+  exit 1
+fi
+
+echo "✅ Pre-commit checks passed."
