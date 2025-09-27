@@ -1,1 +1,1 @@
-# Makes src a Python package
+# Marks src as a package

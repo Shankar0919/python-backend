@@ -7,22 +7,27 @@ import os
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(user_bp, url_prefix="/api/users")
-    Swagger(app)
+
+    swagger_config = {
+        "headers": [],
+        "specs": [{
+            "endpoint": "apispec",
+            "route": "/apispec.json",
+            "rule_filter": lambda rule: True,
+            "model_filter": lambda tag: True,
+        }],
+        "static_url_path": "/flasgger_static",
+        "swagger_ui": True,
+        "specs_route": "/apidocs/"
+    }
+
+    Swagger(app, config=swagger_config)
 
     @app.route("/healthcheck")
     def healthcheck():
-        """Health check
-        ---
-        tags:
-          - Health
-        responses:
-          200:
-            description: Returns service status
-        """
         return jsonify({"status": "ok", "message": "Python Backend Running"})
 
     return app
-
 
 if __name__ == "__main__":
     env_name = os.getenv("APP_ENV", "local")

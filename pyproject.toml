@@ -6,9 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "python-backend"
 version = "0.1.0"
 description = "Python backend using Flask, pytest, Flasgger, and OpenAPI"
-authors = [
-    { name="Your Name", email="you@example.com" }
-]
+authors = [ { name="Your Name", email="you@example.com" } ]
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

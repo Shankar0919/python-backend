@@ -1,0 +1,24 @@
+meta {
+  name: Python Backend API
+  type: collection
+}
+
+request healthcheck {
+  method: GET
+  url: {{baseUrl}}/healthcheck
+}
+
+request create_user {
+  method: POST
+  url: {{baseUrl}}/api/users/create
+}
+
+request update_user {
+  method: PUT
+  url: {{baseUrl}}/api/users/update/1
+}
+
+request delete_user {
+  method: DELETE
+  url: {{baseUrl}}/api/users/delete/1
+}
