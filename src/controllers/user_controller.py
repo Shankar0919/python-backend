@@ -5,6 +5,7 @@ from services.user_service import transform_user_data
 
 users = {}
 
+
 def create_user():
     data = request.get_json()
     if not data.get("name"):
@@ -20,6 +21,7 @@ def create_user():
     users[user_id] = transformed
     return jsonify({"message": "User created", "data": transformed}), 201
 
+
 def update_user(user_id):
     if user_id not in users:
         return jsonify({"error": "User not found"}), 404
@@ -33,6 +35,7 @@ def update_user(user_id):
     updated = transform_user_data(existing)
     users[user_id] = updated
     return jsonify({"message": "User updated", "data": updated}), 200
+
 
 def delete_user(user_id):
     if user_id not in users:

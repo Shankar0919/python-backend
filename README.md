@@ -12,8 +12,8 @@
 - [Endpoints](-#endpoints)
 - [Development](-#development)
   - [Install dependencies](-#install-dependencies)
-  - [Run app](-#run-app)
   - [Run tests](-#run-tests)
+  - [Run app](-#run-app)
 - [Update API Spec & Collections](-#update-api-spec-&-collections)
 - [Render Deployment](-#render-deployment)
 - [Architecture](-#architecture)
@@ -43,19 +43,40 @@ Python backend using Flask, pytest, Flasgger, and auto-generated OpenAPI spec.
 ### Install dependencies
 
 ```bash
-pip install -e .
+  pip install -r requirements-test.txt .
+```
+
+### Run tests
+
+#### Unit Test
+
+```bash
+  pytest -v
+```
+
+#### Unit Test Coverage
+
+These commands creates coverage reports in html showing difference between covered and uncovered lines. The coverage will also be displayed in the terminal.
+
+- For All Files:
+  ```bash
+    pytest --cov=src --cov-report=term-missing --cov-report=html --cov-report=annotate:coverage/annotate
+  ```
+- For Individual File:
+  ```bash
+    pytest --cov=`File-Path`--cov-report=term-missing --cov-report=html:coverage/html --cov-report=annotate:coverage/annotate
+  ```
+
+#### Run Lint
+
+```bash
+  python -m flake8 src
 ```
 
 ### Run app
 
 ```bash
-python src/app.py
-```
-
-### Run tests
-
-```bash
-pytest -v
+  python src/app.py
 ```
 
 ## Update API Spec & Collections
@@ -63,8 +84,8 @@ pytest -v
 Whenever you add or modify an endpoint, regenerate spec & collections:
 
 ```bash
-python scripts/generate_apispec.py
-python scripts/update_collections.py
+  python scripts/generate_apispec.py
+  python scripts/update_collections.py
 ```
 
 This updates:
