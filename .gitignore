@@ -6,3 +6,12 @@ venv/
 .env.local
 .vscode/
 .idea/
+.pytest_cache/
+.DS_Store
+.nx
+node_modules/
+dist/
+
+
+.nx/cache
+.nx/workspace-data
