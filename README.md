@@ -81,7 +81,6 @@ This application is deployed on Render with the following environments:
 | ----------- | ------------------------------------------ | ---------- |
 | Production  | <https://python-backend-prod.onrender.com> | production |
 | Engineering | <https://python-backend-eng.onrender.com>  | eng        |
-| Test        | <https://python-backend-test.onrender.com> | test       |
 
 > Each service runs the same codebase with different `APP_ENV` values.
 

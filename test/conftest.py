@@ -11,6 +11,6 @@ except ImportError:
 @pytest.fixture
 def client():
     app = create_app()
-    app.testing = True
+    app.testing = False
     with app.test_client() as client:
         yield client

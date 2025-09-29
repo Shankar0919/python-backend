@@ -29,10 +29,6 @@ def create_app():
 
     Swagger(app, config=swagger_config)
 
-    # Enable testing mode if APP_ENV=test
-    if app_env == "test":
-        app.config["TESTING"] = True
-
     return app
 
 
