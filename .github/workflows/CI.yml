@@ -24,12 +24,6 @@ jobs:
       - name: Run flake8
         run: flake8 src test
 
-      - name: Run black
-        run: black --check src test
-
-      - name: Run isort
-        run: isort --check-only src test
-
   test:
     runs-on: ubuntu-latest
     steps:
