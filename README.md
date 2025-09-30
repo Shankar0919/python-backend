@@ -85,8 +85,14 @@ Python backend using Flask, pytest, Flasgger, and auto-generated OpenAPI spec.
 
 #### Unit Test
 
+- Run All Tests
 ```bash
   pytest -v
+```
+
+- Run Failed Tests
+```bash
+pytest --last-failed
 ```
 
 #### Unit Test Coverage

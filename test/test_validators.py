@@ -1,7 +1,7 @@
-from validators.boolean_validator import is_boolean
-from validators.date_validator import is_valid_date
-from validators.time_validator import is_valid_time
-from validators.currency_validator import is_valid_currency
+from src.validators.boolean_validator import is_boolean
+from src.validators.date_validator import is_valid_date
+from src.validators.time_validator import is_valid_time
+from src.validators.currency_validator import is_valid_currency
 
 
 def test_boolean_validator():

@@ -1,5 +1,5 @@
 from flask import Flask
-from routes.app_routes import app_bp
+from src.routes.app_routes import app_bp
 from flasgger import Swagger
 from dotenv import load_dotenv
 import os

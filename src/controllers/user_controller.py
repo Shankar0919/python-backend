@@ -1,9 +1,21 @@
 from flask import request, jsonify
-from validators.boolean_validator import is_boolean
-from validators.date_validator import is_valid_date
-from services.user_service import transform_user_data
+from src.validators.boolean_validator import is_boolean
+from src.validators.date_validator import is_valid_date
+from src.services.user_service import transform_user_data
+
 
 users = {}
+
+
+def get_users():
+    """
+    Controller for fetching all users.
+    Returns a JSON response with statusCode and user list.
+    """
+    return jsonify({
+        "statusCode": 200,
+        "users": list(users.values())
+    })
 
 
 def create_user():

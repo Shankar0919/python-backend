@@ -1,15 +1,3 @@
-import pytest
-from src.app import create_app
-
-
-@pytest.fixture
-def client():
-    app = create_app()
-    app.testing = True
-    with app.test_client() as client:
-        yield client
-
-
 def test_healthcheck_route(client):
     response = client.get("/healthcheck")
     assert response.status_code == 200
@@ -21,7 +9,10 @@ def test_healthcheck_route(client):
 def test_get_users_empty(client):
     response = client.get("/users")
     assert response.status_code == 200
-    assert response.get_json() == []
+    json_data = response.get_json()
+    assert json_data["statusCode"] == 200
+    assert "users" in json_data
+    assert json_data["users"] == []
 
 
 def test_create_user_route(client):
