@@ -106,7 +106,7 @@ Coverage will also be displayed in the terminal.
 #### Run Lint
 
 ```bash
-  python -m flake8 src
+  python -m flake8 src test
 ```
 
 ### Run app
