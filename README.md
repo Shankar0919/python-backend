@@ -118,7 +118,7 @@ Coverage will also be displayed in the terminal.
 ### Run app
 
 ```bash
-  python src/app.py
+  python -m src/app.py
 ```
 
 ## Update API Spec & Collections
