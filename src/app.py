@@ -1,5 +1,5 @@
 from flask import Flask
-from routes.user_routes import user_bp
+from routes.app_routes import app_bp
 from flasgger import Swagger
 from dotenv import load_dotenv
 import os
@@ -13,7 +13,7 @@ if os.path.exists(dotenv_file):
 
 def create_app():
     app = Flask(__name__)
-    app.register_blueprint(user_bp, url_prefix="/api/users")
+    app.register_blueprint(app_bp)
 
     # Dynamically set Swagger servers based on APP_ENV
     if app_env == "production":

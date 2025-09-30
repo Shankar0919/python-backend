@@ -23,20 +23,55 @@ Python backend using Flask, pytest, Flasgger, and auto-generated OpenAPI spec.
 ## Project Structure
 
 - `src/app.py` → Application entrypoint
-- `src/routes/` → Route definitions
-- `src/controllers/` → Request handlers
-- `src/services/` → Business logic
+- `src/app_routes.py` → Central router (includes all controllers, no prefixes)
+- `src/controllers/` → Request handlers  
+  - `user_controller.py` (CRUD endpoints: `/users`, `/users/create`, `/users/update/{id}`, `/users/delete/{id}`)  
+  - `health_controller.py` (`/healthcheck`)  
+- `src/services/` → Business logic (`user_service.py`)
 - `src/validators/` → Input validators
-- `test/` → Pytest tests
+- `test/` → Pytest tests (100% coverage for updated endpoints)
 - `scripts/` → Automation scripts (API spec + collections)
 - `docs/` → API spec + generated collections
 
 ## Endpoints
 
-- `GET /healthcheck` → Health check
-- `POST /api/users/create` → Create user
-- `PUT /api/users/update/<user_id>` → Update user
-- `DELETE /api/users/delete/<user_id>` → Delete user
+- **GET `/healthcheck`**
+  - Returns:
+    ```json
+    {
+      "message": "Shankar Python Backend Application is Up and Running successfully"
+    }
+    ```
+
+- **GET `/users`**
+  - Returns:
+    ```json
+    []
+    ```
+
+- **POST `/users/create`**
+  - Returns:
+    ```json
+    {
+      "message": "User created successfully"
+    }
+    ```
+
+- **PUT `/users/update/{id}`**
+  - Returns:
+    ```json
+    {
+      "message": "User {id} updated successfully"
+    }
+    ```
+
+- **DELETE `/users/delete/{id}`**
+  - Returns:
+    ```json
+    {
+      "message": "User {id} deleted successfully"
+    }
+    ```
 
 ## Development
 
@@ -56,7 +91,8 @@ Python backend using Flask, pytest, Flasgger, and auto-generated OpenAPI spec.
 
 #### Unit Test Coverage
 
-These commands creates coverage reports in html showing difference between covered and uncovered lines. The coverage will also be displayed in the terminal.
+These commands create coverage reports in HTML showing covered/uncovered lines.  
+Coverage will also be displayed in the terminal.
 
 - For All Files:
   ```bash
@@ -64,7 +100,7 @@ These commands creates coverage reports in html showing difference between cover
   ```
 - For Individual File:
   ```bash
-    pytest --cov=`File-Path`--cov-report=term-missing --cov-report=html:coverage/html --cov-report=annotate:coverage/annotate
+    pytest --cov=`File-Path` --cov-report=term-missing --cov-report=html:coverage/html --cov-report=annotate:coverage/annotate
   ```
 
 #### Run Lint

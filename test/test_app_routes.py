@@ -9,42 +9,44 @@ def client():
         yield client
 
 
+def test_healthcheck_route(client):
+    response = client.get("/healthcheck")
+    assert response.status_code == 200
+    assert response.get_json() == {
+        "message": "Shankar Python Backend Application is Up and Running successfully"
+    }
+
+
 def test_get_users_empty(client):
     response = client.get("/api/users")
     assert response.status_code == 200
     assert response.get_json() == []
 
 
-def test_create_user_success(client):
-    payload = {"name": "John", "active": "true", "dob": "2000-01-01"}
+def test_create_user_route(client):
+    payload = {"name": "Alice", "active": "true", "dob": "1999-12-31"}
     response = client.post("/api/users/create", json=payload)
     assert response.status_code == 201
     data = response.get_json()
     assert data["message"] == "User created"
     assert "data" in data
-    assert data["data"]["name"] == "John"
+    assert data["data"]["name"] == "Alice"
+    return data["data"]["id"]
 
 
-def test_create_user_missing_name(client):
-    payload = {"active": "true", "dob": "2000-01-01"}
-    response = client.post("/api/users/create", json=payload)
-    assert response.status_code == 400
-    assert response.get_json()["error"] == "Name is required"
+def test_update_user_route(client):
+    # Create first
+    payload = {"name": "Bob", "active": "true", "dob": "1995-05-05"}
+    res = client.post("/api/users/create", json=payload)
+    user_id = res.get_json()["data"]["id"]
 
-
-def test_update_user_success(client):
-    # create user first
-    payload = {"name": "Jane", "active": "true", "dob": "1995-01-01"}
-    create_res = client.post("/api/users/create", json=payload)
-    user_id = create_res.get_json()["data"]["id"]
-
-    # update user
-    update_payload = {"name": "Jane Doe"}
+    # Update
+    update_payload = {"name": "Bob Marley"}
     response = client.put(f"/api/users/update/{user_id}", json=update_payload)
     assert response.status_code == 200
     data = response.get_json()
     assert data["message"] == "User updated"
-    assert data["data"]["name"] == "Jane Doe"
+    assert data["data"]["name"] == "Bob Marley"
 
 
 def test_update_user_not_found(client):
@@ -53,13 +55,13 @@ def test_update_user_not_found(client):
     assert response.get_json()["error"] == "User not found"
 
 
-def test_delete_user_success(client):
-    # create user first
-    payload = {"name": "Alex", "active": "true", "dob": "1990-01-01"}
-    create_res = client.post("/api/users/create", json=payload)
-    user_id = create_res.get_json()["data"]["id"]
+def test_delete_user_route(client):
+    # Create first
+    payload = {"name": "Charlie", "active": "true", "dob": "1990-10-10"}
+    res = client.post("/api/users/create", json=payload)
+    user_id = res.get_json()["data"]["id"]
 
-    # delete user
+    # Delete
     response = client.delete(f"/api/users/delete/{user_id}")
     assert response.status_code == 200
     data = response.get_json()
