@@ -1,5 +1,5 @@
-from flask import Flask, jsonify
-from routes.user_routes import user_bp
+from flask import Flask
+from src.routes.app_routes import app_bp
 from flasgger import Swagger
 from dotenv import load_dotenv
 import os
@@ -10,9 +10,34 @@ dotenv_file = f".env.{app_env}"
 if os.path.exists(dotenv_file):
     load_dotenv(dotenv_file)
 
+
 def create_app():
     app = Flask(__name__)
-    app.register_blueprint(user_bp, url_prefix="/api/users")
+    app.register_blueprint(app_bp)
+
+    # Dynamically set Swagger servers based on APP_ENV
+    if app_env == "production":
+        servers = [
+            {"url": "https://shankar-python-backend-prod.onrender.com", "description": "Production environment"}
+        ]
+    elif app_env == "eng":
+        servers = [
+            {"url": "https://shankar-python-backend-eng.onrender.com", "description": "Eng environment"}
+        ]
+    else:
+        servers = [
+            {"url": "http://localhost:5000", "description": "Local development"}
+        ]
+
+    swagger_template = {
+        "swagger": "2.0",
+        "info": {
+            "title": "Python Backend API",
+            "description": "API for user management",
+            "version": "1.0.0"
+        },
+        "servers": servers
+    }
 
     swagger_config = {
         "headers": [],
@@ -27,7 +52,7 @@ def create_app():
         "specs_route": "/swagger/"
     }
 
-    Swagger(app, config=swagger_config)
+    Swagger(app, config=swagger_config, template=swagger_template)
 
     return app
 

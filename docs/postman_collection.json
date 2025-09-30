@@ -1,26 +1,84 @@
 {
   "info": {
     "name": "Python Backend API",
-    "_postman_id": "12345",
-    "description": "Generated collection for Python Backend",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Healthcheck",
-      "request": { "method": "GET", "url": "{{baseUrl}}/healthcheck" }
+      "name": "GET /healthcheck",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:5000/healthcheck",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "healthcheck"
+          ]
+        }
+      }
     },
     {
-      "name": "Create User",
-      "request": { "method": "POST", "url": "{{baseUrl}}/api/users/create" }
+      "name": "POST /api/users/create",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:5000/api/users/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "users",
+            "create"
+          ]
+        }
+      }
     },
     {
-      "name": "Update User",
-      "request": { "method": "PUT", "url": "{{baseUrl}}/api/users/update/1" }
+      "name": "PUT /api/users/update/<user_id>",
+      "request": {
+        "method": "PUT",
+        "url": {
+          "raw": "http://localhost:5000/api/users/update/<user_id>",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "users",
+            "update",
+            "<user_id>"
+          ]
+        }
+      }
     },
     {
-      "name": "Delete User",
-      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/users/delete/1" }
+      "name": "DELETE /api/users/delete/<user_id>",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:5000/api/users/delete/<user_id>",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "users",
+            "delete",
+            "<user_id>"
+          ]
+        }
+      }
     }
   ]
 }

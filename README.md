@@ -12,8 +12,8 @@
 - [Endpoints](-#endpoints)
 - [Development](-#development)
   - [Install dependencies](-#install-dependencies)
-  - [Run app](-#run-app)
   - [Run tests](-#run-tests)
+  - [Run app](-#run-app)
 - [Update API Spec & Collections](-#update-api-spec-&-collections)
 - [Render Deployment](-#render-deployment)
 - [Architecture](-#architecture)
@@ -23,39 +23,102 @@ Python backend using Flask, pytest, Flasgger, and auto-generated OpenAPI spec.
 ## Project Structure
 
 - `src/app.py` → Application entrypoint
-- `src/routes/` → Route definitions
-- `src/controllers/` → Request handlers
-- `src/services/` → Business logic
+- `src/app_routes.py` → Central router (includes all controllers, no prefixes)
+- `src/controllers/` → Request handlers  
+  - `user_controller.py` (CRUD endpoints: `/users`, `/users/create`, `/users/update/{id}`, `/users/delete/{id}`)  
+  - `health_controller.py` (`/healthcheck`)  
+- `src/services/` → Business logic (`user_service.py`)
 - `src/validators/` → Input validators
-- `test/` → Pytest tests
+- `test/` → Pytest tests (100% coverage for updated endpoints)
 - `scripts/` → Automation scripts (API spec + collections)
 - `docs/` → API spec + generated collections
 
 ## Endpoints
 
-- `GET /healthcheck` → Health check
-- `POST /api/users/create` → Create user
-- `PUT /api/users/update/<user_id>` → Update user
-- `DELETE /api/users/delete/<user_id>` → Delete user
+- **GET `/healthcheck`**
+  - Returns:
+    ```json
+    {
+      "message": "Shankar Python Backend Application is Up and Running successfully"
+    }
+    ```
+
+- **GET `/users`**
+  - Returns:
+    ```json
+    []
+    ```
+
+- **POST `/users/create`**
+  - Returns:
+    ```json
+    {
+      "message": "User created successfully"
+    }
+    ```
+
+- **PUT `/users/update/{id}`**
+  - Returns:
+    ```json
+    {
+      "message": "User {id} updated successfully"
+    }
+    ```
+
+- **DELETE `/users/delete/{id}`**
+  - Returns:
+    ```json
+    {
+      "message": "User {id} deleted successfully"
+    }
+    ```
 
 ## Development
 
 ### Install dependencies
 
 ```bash
-pip install -e .
+  pip install -r requirements-test.txt .
+```
+
+### Run tests
+
+#### Unit Test
+
+- Run All Tests
+```bash
+  pytest -v
+```
+
+- Run Failed Tests
+```bash
+pytest --last-failed
+```
+
+#### Unit Test Coverage
+
+These commands create coverage reports in HTML showing covered/uncovered lines.  
+Coverage will also be displayed in the terminal.
+
+- For All Files:
+  ```bash
+    pytest --cov=src --cov-report=term-missing --cov-report=html --cov-report=annotate:coverage/annotate
+  ```
+- For Individual File:
+  ```bash
+    pytest --cov=`File-Path` --cov-report=term-missing --cov-report=html:coverage/html --cov-report=annotate:coverage/annotate
+  ```
+
+#### Run Lint
+
+```bash
+  python -m flake8 src test
 ```
 
 ### Run app
 
 ```bash
-python src/app.py
-```
-
-### Run tests
-
-```bash
-pytest -v
+  python -m src/app.py
 ```
 
 ## Update API Spec & Collections
@@ -63,8 +126,8 @@ pytest -v
 Whenever you add or modify an endpoint, regenerate spec & collections:
 
 ```bash
-python scripts/generate_apispec.py
-python scripts/update_collections.py
+  python scripts/generate_apispec.py
+  python scripts/update_collections.py
 ```
 
 This updates:
@@ -85,5 +148,7 @@ This application is deployed on Render with the following environments:
 > Each service runs the same codebase with different `APP_ENV` values.
 
 ## 🖼 Architecture
+
+> Currently we are having only two controllers as showm in the image below (Repository Architecture). In future, will have many more.
 
 ![Architecture Diagram](./architecture.png)

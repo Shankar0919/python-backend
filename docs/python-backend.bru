@@ -1,24 +1,17 @@
-meta {
-  name: Python Backend API
-  type: collection
-}
-
-request healthcheck {
+collection:
+  info:
+    name: Python Backend API
+    version: 1.0.0
+requests:
+- name: GET /healthcheck
   method: GET
-  url: {{baseUrl}}/healthcheck
-}
-
-request create_user {
+  url: http://localhost:5000/healthcheck
+- name: POST /api/users/create
   method: POST
-  url: {{baseUrl}}/api/users/create
-}
-
-request update_user {
+  url: http://localhost:5000/api/users/create
+- name: PUT /api/users/update/<user_id>
   method: PUT
-  url: {{baseUrl}}/api/users/update/1
-}
-
-request delete_user {
+  url: http://localhost:5000/api/users/update/<user_id>
+- name: DELETE /api/users/delete/<user_id>
   method: DELETE
-  url: {{baseUrl}}/api/users/delete/1
-}
+  url: http://localhost:5000/api/users/delete/<user_id>

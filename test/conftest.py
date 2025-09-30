@@ -1,16 +1,24 @@
 import pytest
-import sys, os
+from src.app import create_app
+from src.controllers import user_controller
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
 
-try:
-    from app import create_app
-except ImportError:
-    from src.app import create_app
+@pytest.fixture(autouse=True)
+def clear_users():
+    """
+    Automatically clear the in-memory users dictionary
+    before each individual test.
+    """
+    user_controller.users.clear()
+    yield
+
 
 @pytest.fixture
 def client():
+    """
+    Provides a fresh Flask test client for each test.
+    """
     app = create_app()
-    app.testing = False
+    app.testing = True  # Enable Flask testing mode
     with app.test_client() as client:
         yield client
