@@ -143,4 +143,6 @@ This application is deployed on Render with the following environments:
 
 ## 🖼 Architecture
 
+> Currently we are having only two controllers as showm in the image below (Repository Architecture). In future, will have many more.
+
 ![Architecture Diagram](./architecture.png)

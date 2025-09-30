@@ -18,31 +18,30 @@ def test_healthcheck_route(client):
 
 
 def test_get_users_empty(client):
-    response = client.get("/api/users")
+    response = client.get("/users")
     assert response.status_code == 200
     assert response.get_json() == []
 
 
 def test_create_user_route(client):
     payload = {"name": "Alice", "active": "true", "dob": "1999-12-31"}
-    response = client.post("/api/users/create", json=payload)
+    response = client.post("/users/create", json=payload)
     assert response.status_code == 201
     data = response.get_json()
     assert data["message"] == "User created"
     assert "data" in data
     assert data["data"]["name"] == "Alice"
-    return data["data"]["id"]
 
 
 def test_update_user_route(client):
     # Create first
     payload = {"name": "Bob", "active": "true", "dob": "1995-05-05"}
-    res = client.post("/api/users/create", json=payload)
+    res = client.post("/users/create", json=payload)
     user_id = res.get_json()["data"]["id"]
 
     # Update
     update_payload = {"name": "Bob Marley"}
-    response = client.put(f"/api/users/update/{user_id}", json=update_payload)
+    response = client.put(f"/users/update/{user_id}", json=update_payload)
     assert response.status_code == 200
     data = response.get_json()
     assert data["message"] == "User updated"
@@ -50,7 +49,7 @@ def test_update_user_route(client):
 
 
 def test_update_user_not_found(client):
-    response = client.put("/api/users/update/999", json={"name": "Ghost"})
+    response = client.put("/users/update/999", json={"name": "Ghost"})
     assert response.status_code == 404
     assert response.get_json()["error"] == "User not found"
 
@@ -58,11 +57,11 @@ def test_update_user_not_found(client):
 def test_delete_user_route(client):
     # Create first
     payload = {"name": "Charlie", "active": "true", "dob": "1990-10-10"}
-    res = client.post("/api/users/create", json=payload)
+    res = client.post("/users/create", json=payload)
     user_id = res.get_json()["data"]["id"]
 
     # Delete
-    response = client.delete(f"/api/users/delete/{user_id}")
+    response = client.delete(f"/users/delete/{user_id}")
     assert response.status_code == 200
     data = response.get_json()
     assert data["message"] == "User deleted"
@@ -70,6 +69,6 @@ def test_delete_user_route(client):
 
 
 def test_delete_user_not_found(client):
-    response = client.delete("/api/users/delete/999")
+    response = client.delete("/users/delete/999")
     assert response.status_code == 404
     assert response.get_json()["error"] == "User not found"
